@@ -1,0 +1,12 @@
+[v-cloak] {
+  display: none;
+}
+
+.inverted {
+	filter: invert(100%);
+}
+
+.input-group.error-textbox input {
+	border: 1px solid red;
+	padding: 10px;
+}
