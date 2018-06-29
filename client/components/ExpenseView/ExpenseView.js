@@ -3,16 +3,9 @@ import template from './template.js'
 import api from '../../helpers/api.js'
 
 const ExpenseView = Vue.component('expense-view', {
+	props: ['expenses'],
 	data,
 	template,
-	created() {
-		api.getExpenses()
-			.then(expenses => {
-				this.expenses = expenses.reverse()
-				this.loading = false
-			})
-			.catch(e => console.log(e))
-	},
 	watch: {
 		description(val) {
 			if (val !== '')

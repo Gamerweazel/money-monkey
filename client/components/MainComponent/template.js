@@ -7,6 +7,7 @@ const template = `
 					</v-avatar>
 				</v-toolbar-side-icon>
 				<router-link to="/dash">Home</router-link>
+				<router-link to="/stats">Stats</router-link>
 				<router-link to="/about">About Us</router-link>
 				<v-spacer></v-spacer>
 				<h4>Theme:</h4>

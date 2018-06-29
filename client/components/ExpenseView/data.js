@@ -7,13 +7,12 @@ const data = () => ({
 	snackbar: false,
 	snackText: '',
 	snackColor: 'green',
-	loading: true,
+	loading: false,
 	expenseId: null,
 	valid: {
 		description: true,
 		amount: true
 	},
-	expenses: [],
 	headers: [
 	{
 		text: 'Selected',
