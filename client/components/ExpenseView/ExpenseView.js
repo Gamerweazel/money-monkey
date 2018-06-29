@@ -40,9 +40,6 @@ const ExpenseView = Vue.component('expense-view', {
 			else
 				return false
 		},
-		dark() {
-			return this.theme === 'dark'
-		},
 		loadingText() {
 			return this.loading ? 'Loading Expenses' : 'No Expenses ;('
 		}
@@ -52,23 +49,6 @@ const ExpenseView = Vue.component('expense-view', {
 			this.snackColor = color
 			this.snackText = message
 			this.snackbar = true
-		},
-		setTheme(theme) {
-			/*
-			const themeMap = {
-				'green': {
-					primary: '#005500',
-					info: '#00ff00'
-				},
-				'red': {
-					primary: '#550000',
-					info: '#ff0000'
-				}
-			}
-
-			this.$vuetify.theme = themeMap[theme]
-			*/
-			this.theme = theme
 		},
 		validAmount() {
 			return this.amount !== '' && /^[^,]([0-9]{0,3})(,?([0-9]){3})*(\.[0-9]{0,2})?$/.test(this.amount)

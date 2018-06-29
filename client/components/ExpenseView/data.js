@@ -3,7 +3,6 @@ const data = () => ({
 	description: '',
 	amount: '',
 	quantity: '1',
-	theme: 'light',
 	deletingId: null,
 	snackbar: false,
 	snackText: '',
