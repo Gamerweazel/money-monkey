@@ -17,9 +17,9 @@ const expenseSchema = mongoose.Schema({
 		max: 99,
 	},
 	date: {
-		type: String,
+		type: Date,
 		required: true,
-		default: moment().format('MMMM Do, YYYY')
+		default: Date.now
 	}
 })
 

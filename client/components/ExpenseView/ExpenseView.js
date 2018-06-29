@@ -45,6 +45,9 @@ const ExpenseView = Vue.component('expense-view', {
 		}
 	},
 	methods: {
+		formatDate(date) {
+			return moment(date).format('MMMM Do, YYYY')
+		},
 		showSnack(message, color) {
 			this.snackColor = color
 			this.snackText = message

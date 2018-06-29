@@ -46,7 +46,7 @@ const template = `
 								<td class="text-xs-left"><b>{{ props.item.description }}</b></td>
 								<td class="text-xs-left"><b>\$\{{ props.item.amount.toFixed(2) }}</b></td>
 								<td class="text-xs-left"><b>{{ props.item.quantity }}</b></td>
-								<td class="text-xs-left"><b>{{ props.item.date }}</b></td>
+								<td class="text-xs-left"><b>{{ formatDate(props.item.date) }}</b></td>
 								<td>
 									<v-tooltip bottom>
 	      								<span slot="activator">
