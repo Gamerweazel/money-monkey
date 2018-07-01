@@ -1,22 +1,14 @@
 import template from './template.js'
-import api from '../../helpers/api.js'
 import router from '../../router/router.js'
+import store from '../../store/store.js'
 
 const MainComponent = new Vue({
   el: '#app',
   router,
+  store,
   template,
-  created() {
-    api.getExpenses()
-      .then(expenses => {
-        this.expenses = expenses.reverse()
-        this.loading = false
-      })
-      .catch(e => console.log(e))
-  },
   data: {
     theme: 'light',
-    expenses: [],
   },
   methods: {
     setTheme(theme) {
@@ -29,3 +21,5 @@ const MainComponent = new Vue({
     },
   }
 })
+
+export default MainComponent

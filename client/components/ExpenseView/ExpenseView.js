@@ -1,9 +1,9 @@
 import data from './data.js'
 import template from './template.js'
 import api from '../../helpers/api.js'
+import * as actionTypes from '../../store/actionTypes.js'
 
 const ExpenseView = Vue.component('expense-view', {
-  props: ['expenses'],
   data,
   template,
   watch: {
@@ -17,6 +17,9 @@ const ExpenseView = Vue.component('expense-view', {
     },
   },
   computed: {
+    expenses() {
+      return this.$store.state.expenses
+    },
     total() {
       // functional way
       return this.expenses
@@ -60,7 +63,6 @@ const ExpenseView = Vue.component('expense-view', {
       this.description = expense.description
       this.amount = expense.amount.toLocaleString()
       this.quantity = expense.quantity
-
     },
     setDeletingId(id) {
       this.deletingId = id
@@ -87,12 +89,10 @@ const ExpenseView = Vue.component('expense-view', {
           console.log('updating')
           // we are editing an expense
           this.updateExpense(this.expenseId)
-
         } else {
           console.log('adding')
           // we are adding an expense
           this.addExpense()
-
         }
         this.$refs.descriptionRef.focus()
       }
@@ -101,9 +101,7 @@ const ExpenseView = Vue.component('expense-view', {
       const indexOfExpense = this.expenses.findIndex(expense => expense._id === id)
       const expense = this.expenses[indexOfExpense]
 
-      api.addExpense({ ...expense
-        })
-        .then(expense => this.expenses.unshift(expense))
+      this.$store.dispatch(actionTypes.DUPLICATE_EXPENSE, expense)
         .then(() => this.showSnack('Duplicated Expense', 'green'))
         .catch(e => this.showSnack('Failed to duplicate', 'red'))
     },
@@ -113,8 +111,7 @@ const ExpenseView = Vue.component('expense-view', {
         amount: Number(this.amount.replace(/,/g, '')),
         quantity: Number(this.quantity),
       }
-      api.addExpense(expense)
-        .then(expense => this.expenses.unshift(expense))
+      this.$store.dispatch(actionTypes.ADD_EXPENSE, expense)
         .then(this.clear)
         .then(() => this.showSnack('Added Expense', 'green'))
         .catch(e => this.showSnack('Failed to add', 'red'))
@@ -127,24 +124,17 @@ const ExpenseView = Vue.component('expense-view', {
         quantity: Number(this.quantity),
       }
 
-      api.updateExpense(updatedExpense)
-        .then(expense => {
-          const indexOfExpense = this.expenses.findIndex(expense => expense._id === id)
-          this.expenses.splice(indexOfExpense, 1, expense)
-          this.expenseId = null
-        })
+      this.$store.dispatch(actionTypes.UPDATE_EXPENSE, updatedExpense)
+        .then(() => this.expenseId = null)
         .then(this.clear)
         .then(() => this.showSnack('Updated Expense', 'green'))
         .catch(e => this.showSnack('Failed to update', 'red'))
     },
     deleteExpense() {
       const indexOfExpense = this.expenses.findIndex(expense => expense._id === this.deletingId)
-      console.log(this.expenses[indexOfExpense].description)
-      api.deleteExpense(this.deletingId)
-        .then(() => {
-          this.expenses = this.expenses.filter(expense => expense._id !== this.deletingId)
-          this.deletingId = null
-        })
+      const id = this.expenses[indexOfExpense]._id
+      this.$store.dispatch(actionTypes.DELETE_EXPENSE, id)
+        .then(() => this.deletingId = null)
         .then(() => this.showSnack('Deleted Expense', 'green'))
         .catch(e => this.showSnack('Failed to delete', 'red'))
     },
