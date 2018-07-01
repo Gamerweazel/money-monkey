@@ -13,24 +13,24 @@ app.use(morgan('tiny'))
 app.use('/expenses', expensesRouter)
 
 app.use((req, res, next) => {
-	if (req.error) {
-		// Came from controller
-		switch(req.error.name) {
-		case 'ValidationError':
-			res.status(422).json({
-				message: req.error.message
-			})
-		break
-		default:
-		res.status(500).send()
-		}
-	} else {
-		// We fell through
-		res.status(404).send()
-	}
+  if (req.error) {
+    // Came from controller
+    switch (req.error.name) {
+      case 'ValidationError':
+        res.status(422).json({
+          message: req.error.message
+        })
+        break
+      default:
+        res.status(500).send()
+    }
+  } else {
+    // We fell through
+    res.status(404).send()
+  }
 })
 
 mongoose.connect('mongodb://localhost:27017/expenses')
-	.then(() => {
-		app.listen(3000)
-	})
+  .then(() => {
+    app.listen(3000)
+  })
