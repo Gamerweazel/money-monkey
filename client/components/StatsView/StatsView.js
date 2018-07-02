@@ -1,11 +1,14 @@
 const StatsView = Vue.component('stats-view', {
   data: () => ({
     startPicker: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-    endPicker: moment().format('YYYY-MM-DD'),
+    endPicker: moment().add(1, 'day').format('YYYY-MM-DD'),
   }),
   computed: {
-    rangedExpenses() {
-
+    expenses() {
+      const startUTC = moment(this.startPicker).unix()
+      const endUTC = moment(this.endPicker).unix()
+      console.log(startUTC, endUTC)
+      return this.$store.getters.inRange(startUTC, endUTC)
     }
   },
   template: `
@@ -18,7 +21,8 @@ const StatsView = Vue.component('stats-view', {
         <v-layout row justify-space-around>
           <v-date-picker v-model="startPicker"></v-date-picker>
           <v-date-picker v-model="endPicker"></v-date-picker>
-        </v-layout>	
+        {{ expenses }}
+        </v-layout>
       </v-container>
     </v-content>
   `
