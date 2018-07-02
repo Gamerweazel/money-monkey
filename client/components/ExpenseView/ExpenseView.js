@@ -1,6 +1,5 @@
 import data from './data.js'
 import template from './template.js'
-import api from '../../helpers/api.js'
 import * as actionTypes from '../../store/actionTypes.js'
 
 const ExpenseView = Vue.component('expense-view', {
