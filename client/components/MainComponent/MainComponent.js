@@ -2,11 +2,11 @@ import ExpenseView from '../ExpenseView/ExpenseView.js'
 import AboutView from '../AboutView/AboutView.js'
 import StatsView from '../StatsView/StatsView.js'
 import template from './template.js'
-import api from '../../helpers/api.js'
+import store from '../../store/store.js'
 
 const routes = [
 	{ path: '/about', component: AboutView },
-	{ path: '/dash', component: ExpenseView, props: { default: true, expenses: [] } },
+	{ path: '/dash', component: ExpenseView },
 	{ path: '/stats', component: StatsView }
 ]
 
@@ -17,15 +17,8 @@ const router = new VueRouter({
 const MainComponent = new Vue({
 	el: '#app',
 	router,
+	store,
 	template,
-	created() {
-		api.getExpenses()
-			.then(expenses => {
-				this.expenses = expenses.reverse()
-				this.loading = false
-			})
-			.catch(e => console.log(e))
-	},
 	data: {
 		theme: 'light',
 		expenses: [],
@@ -41,3 +34,6 @@ const MainComponent = new Vue({
 		},
 	}
 })
+
+
+export default MainComponent

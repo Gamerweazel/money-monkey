@@ -3,7 +3,6 @@ import template from './template.js'
 import api from '../../helpers/api.js'
 
 const ExpenseView = Vue.component('expense-view', {
-	props: ['expenses'],
 	data,
 	template,
 	watch: {
@@ -17,6 +16,9 @@ const ExpenseView = Vue.component('expense-view', {
 		},
 	},
 	computed: {
+		expenses() {
+			return this.$store.state.expenses
+		},
 		total() {
 			// functional way
 			return this.expenses
