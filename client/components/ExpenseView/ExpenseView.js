@@ -1,6 +1,5 @@
 import data from './data.js'
 import template from './template.js'
-import api from '../../helpers/api.js'
 import * as actionTypes from '../../store/actionTypes.js'
 
 const ExpenseView = Vue.component('expense-view', {
@@ -104,8 +103,7 @@ const ExpenseView = Vue.component('expense-view', {
 			const indexOfExpense = this.expenses.findIndex(expense => expense._id === id)
 			const expense = this.expenses[indexOfExpense]
 			
-			api.addExpense({ ...expense })
-				.then(expense => this.expenses.unshift(expense))
+			this.$store.dispatch(actionTypes.DUPLICATE_EXPENSE, expense)
 				.then(() => this.showSnack('Duplicated Expense', 'green'))
 				.catch(e => this.showSnack('Failed to duplicate', 'red'))
 		},
@@ -128,12 +126,8 @@ const ExpenseView = Vue.component('expense-view', {
 				quantity: Number(this.quantity),
 			}
 
-			api.updateExpense(updatedExpense)
-				.then(expense => {
-					const indexOfExpense = this.expenses.findIndex(expense => expense._id === id)
-					this.expenses.splice(indexOfExpense, 1, expense)
-					this.expenseId = null
-				})
+			this.$store.dispatch(actionTypes.UPDATE_EXPENSE, updatedExpense)
+				.then(() => this.expenseId = null)
 				.then(this.clear)
 				.then(() => this.showSnack('Updated Expense', 'green'))
 				.catch(e => this.showSnack('Failed to update', 'red'))
